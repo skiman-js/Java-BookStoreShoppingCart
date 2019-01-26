@@ -41,15 +41,18 @@ public class CartController extends HttpServlet {
 
 		// Do different things depending on the action (or path requested)
 		try {
-			switch(action) {
-				case "/addcart":
-					 addToCart(request, response);
-           break;
-				case "/delete":
-					 deleteFromCart(request, response);
-          break;
-        default:
-           break;
+			switch (action) {
+			case "/addcart":
+				addToCart(request, response);
+				break;
+			case "/delete":
+				deleteFromCart(request, response);
+				break;
+			case "/update":
+				updateCart(request, response);
+				break;
+			default:
+				break;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -58,13 +61,22 @@ public class CartController extends HttpServlet {
 
 		response.sendRedirect("../ShoppingCart.jsp");
 	}
-	 protected void deleteFromCart(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-		 HttpSession sessions = request.getSession();
-		 int index= Integer.parseInt(request.getParameter("index") );
-		 ShoppingCart cart = (ShoppingCart)sessions.getAttribute("cart");
-		 cart.deleteCartItem(index);
-	 }
+protected void deleteFromCart(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+	 HttpSession sessions = request.getSession();
+	 int index= Integer.parseInt(request.getParameter("index") );
+	 ShoppingCart cart = (ShoppingCart)sessions.getAttribute("cart");
+	 cart.deleteCartItem(index);
+}
+
+private void updateCart(HttpServletRequest request, HttpServletResponse response) 
+		throws ServletException, IOException {
+	HttpSession sessions = request.getSession();
+	int index= Integer.parseInt(request.getParameter("index") );
+	int quantity= Integer.parseInt(request.getParameter("quantity") );
+	ShoppingCart cart = (ShoppingCart)sessions.getAttribute("cart");
+    cart.updateCartItem(index, quantity);
+}
 	 
   protected void addToCart(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
